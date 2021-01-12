@@ -1,21 +1,10 @@
-const { ApolloServer, gql } = require('apollo-server');
+const { ApolloServer } = require('apollo-server');
 const mongoose = require('mongoose');
-const {MONGODB} = require('./config')
-const typeDefs = gql`
-  type Book {
-    title: String
-    author: String
-  }
-  type Query {
-    books: [Book]
-  }
-`;
+const {MONGODB} = require('./config');
 
-const resolvers = {
-    Query: {
-      books: () => 'hi',
-    },
-  };
+const typeDefs = require("./graphql/TypeDefs");
+const resolvers = require("./resolvers");
+
 mongoose.connect(MONGODB,{ useNewUrlParser:true,useUnifiedTopology: true }).then(()=>console.log(`🥳 MongoDB Connected !`));
 const server = new ApolloServer({ typeDefs, resolvers });
 
